@@ -36,6 +36,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                     ->live(debounce: 300)
                     ->hiddenLabel()
                     ->autocomplete(false)
+                    ->autofocus()
                     ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image')),
             ]);
     }
