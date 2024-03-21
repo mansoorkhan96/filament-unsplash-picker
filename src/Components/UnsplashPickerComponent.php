@@ -22,6 +22,8 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public string $search = '';
 
+    public ?int $perPage = null;
+
     public int $page = 1;
 
     public ?int $totalPages = null;
@@ -97,7 +99,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public function getPerPage(): int
     {
-        return 9;
+        return $this->perPage ?? config('unsplash-picker.per_page');
     }
 
     public function render()

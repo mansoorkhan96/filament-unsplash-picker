@@ -21,6 +21,8 @@ class UnsplashPickerAction extends Action
 {
     protected ?ImageSize $imageSize = null;
 
+    protected ?int $perPage = null;
+
     public static function getDefaultName(): ?string
     {
         return 'unsplash_picker';
@@ -38,9 +40,16 @@ class UnsplashPickerAction extends Action
 
         $this->modalWidth(fn (MountableAction $action): ?MaxWidth => MaxWidth::ScreenLarge);
 
-        $this->modalContent(fn () => new HtmlString(Blade::render("@livewire('unsplash-picker-component')")));
+        $this->modalContent(fn () => new HtmlString(Blade::render("@livewire('unsplash-picker-component', ['perPage' => {$this->perPage}])")));
 
         $this->action($this->uploadImage(...));
+    }
+
+    public function perPage(int $perPage): static
+    {
+        $this->perPage = $perPage;
+
+        return $this;
     }
 
     public function raw(): static

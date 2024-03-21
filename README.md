@@ -69,6 +69,28 @@ Forms\Components\FileUpload::make('featured_image')
 - `->small()`
 - `->thumbnail()`
 
+# Specifying Per Page
+
+You can specify how many image results should show on a single page.
+
+Update per_page option in `.env`
+
+```php
+'per_page' => env('UNSPLASH_PICKER_PER_PAGE', 20),
+```
+
+You can also set different per page option for each `UnsplashPickerAction` by appending `->perPage()` method
+
+```php
+Forms\Components\FileUpload::make('featured_image')
+    ->image()
+    ->hintAction(
+        UnsplashPickerAction::make()
+            ->thumbnail()
+            ->perPage(20)
+    )
+```
+
 ## Customization
 
 The `UnsplashPickerAction` is simple Filament Form Action and you append all the available methods. The Image picker component is a livewire component, you can extend and override the methods.
@@ -84,6 +106,7 @@ This is the contents of the published config file:
 ```php
 return [
     'unsplash_client_id' => env('UNSPLASH_CLIENT_ID'),
+    'per_page' => env('UNSPLASH_PICKER_PER_PAGE', 20),
 ];
 ```
 
