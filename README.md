@@ -23,6 +23,12 @@ Add your Unsplash Client ID to your `.env` file
 UNSPLASH_CLIENT_ID=your-unsplash-client-id-goes-here
 ```
 
+**Note: Package includes a queueable job to clear/delete unused files after 24 hours. Make sure to set your queue connection to any async driver**
+
+```php
+QUEUE_CONNECTION=database
+```
+
 ## Usage
 
 Just add the `UnsplashPickerAction` to your FileUpload Field.
