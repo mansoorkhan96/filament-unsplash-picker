@@ -62,7 +62,6 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
         return Action::make('nextPage')
             ->button()
             ->label(__('unsplash-picker::unsplash-picker.next'))
-            ->color('gray')
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === $this->totalPages)
             ->action(function () {
                 $this->nextPage();
@@ -73,7 +72,6 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
     {
         return Action::make('previousPage')
             ->button()
-            ->color('gray')
             ->label(__('unsplash-picker::unsplash-picker.previous'))
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === 1)
             ->action(function () {
