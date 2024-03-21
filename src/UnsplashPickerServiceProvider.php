@@ -30,7 +30,7 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
     {
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
             $factory->add('up', [
-                'path' => __DIR__.'/../resources/icons',
+                'path' => __DIR__ . '/../resources/icons',
                 'prefix' => 'up',
             ]);
         });
@@ -41,7 +41,7 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         FilamentAsset::register([
-            Css::make(static::$name, __DIR__.'/../resources/dist/unsplash-picker.css')->loadedOnRequest(),
-        ], 'mansoor/'.static::$name);
+            Css::make(static::$name, __DIR__ . '/../resources/dist/unsplash-picker.css')->loadedOnRequest(),
+        ], 'mansoor/' . static::$name);
     }
 }
