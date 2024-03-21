@@ -94,7 +94,7 @@ class UnsplashPickerAction extends Action
         return $this;
     }
 
-    protected function uploadImage($arguments, Component $livewire, FileUpload $component)
+    public function uploadImage($arguments, Component $livewire, FileUpload $component)
     {
         $downloadLink = Arr::get($arguments, $this->getImageSize()->getPath());
 
@@ -118,17 +118,17 @@ class UnsplashPickerAction extends Action
         ))->delay(now()->addDay());
     }
 
-    protected function getImageSize(): ImageSize
+    public function getImageSize(): ImageSize
     {
         return $this->imageSize ?? ImageSize::Regular;
     }
 
-    protected function getPerPage(): ?int
+    public function getPerPage(): ?int
     {
         return $this->perPage;
     }
 
-    protected function getOptions()
+    public function getOptions()
     {
         if (! $this->getPerPage()) {
             return;
