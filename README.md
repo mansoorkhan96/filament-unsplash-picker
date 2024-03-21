@@ -101,6 +101,32 @@ Forms\Components\FileUpload::make('featured_image')
 
 The `UnsplashPickerAction` is simple Filament Form Action and you append all the available methods. The Image picker component is a livewire component, you can extend and override the methods.
 
+Here is a very cool example that shows how to get other data for selected unsplash image:
+
+```php
+use Filament\Forms\Components\Actions\Action;
+use Livewire\Component;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Set;
+use Illuminate\Support\Arr;
+
+UnsplashPickerAction::make()
+    ->regular()
+    ->action(function (Action $action, $arguments, Component $livewire, FileUpload $component, Set $set) {
+        $action->uploadImage($arguments, $livewire, $component);
+
+        $creatorName = Arr::get($arguments, 'user.name');
+
+        $altText = Arr::get($arguments, 'alt_description');
+        $creditText = "Photo by {$creatorName}, from unsplash.com";
+        $creditUrl = Arr::get($arguments, 'user.links.html');
+
+        $set('featured_image_alt', $altText);
+        $set('featured_image_credit.text', $creditText);
+        $set('featured_image_credit.url', $creditUrl);
+    })
+```
+
 You dont need to but you can publish the config file with:
 
 ```bash
