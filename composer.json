@@ -1,34 +1,35 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "mansoor/filament-unsplash-picker",
+    "description": "This is my package filament-unsplash-picker",
     "keywords": [
-        ":vendor_name",
+        "mansoor",
         "laravel",
-        ":package_slug"
+        "filament-unsplash-picker",
+        "unsplash",
+        "filament",
+        "image picker"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/mansoor/filament-unsplash-picker",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/mansoor/filament-unsplash-picker/issues",
+        "source": "https://github.com/mansoor/filament-unsplash-picker"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Mansoor Ahmed",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.2",
         "filament/filament": "^3.0",
-        "filament/forms": "^3.0",
-        "filament/tables": "^3.0",
-        "spatie/laravel-package-tools": "^1.15.0"
+        "spatie/laravel-package-tools": "^1.16.4",
+        "illuminate/contracts": "^10.0|^11.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^7.9",
+        "nunomaduro/collision": "^8.1",
         "nunomaduro/larastan": "^2.0.1",
         "orchestra/testbench": "^8.0",
         "pestphp/pest": "^2.1",
@@ -36,18 +37,17 @@
         "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "spatie/laravel-ray": "^1.26"
+        "phpstan/phpstan-phpunit": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Mansoor\\UnsplashPicker\\": "src/",
+            "Mansoor\\UnsplashPicker\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Mansoor\\UnsplashPicker\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -67,10 +67,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Mansoor\\UnsplashPicker\\UnsplashPickerServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "UnsplashPicker": "Mansoor\\UnsplashPicker\\Facades\\UnsplashPicker"
             }
         }
     },

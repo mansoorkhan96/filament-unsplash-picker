@@ -1,61 +1,94 @@
-# :package_description
+# Unsplash Picker for Filament
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mansoor/filament-unsplash-picker.svg?style=flat-square)](https://packagist.org/packages/mansoor/filament-unsplash-picker)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/mansoor/filament-unsplash-picker/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mansoor/filament-unsplash-picker/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mansoor/filament-unsplash-picker/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mansoor/filament-unsplash-picker/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/mansoor/filament-unsplash-picker.svg?style=flat-square)](https://packagist.org/packages/mansoor/filament-unsplash-picker)
 
-<!--delete-->
----
-This repo can be used to scaffold a Filament plugin. Follow these steps to get started:
-
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Make something great!
----
-<!--/delete-->
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+Unsplash gallery in Filament. Search and pick any image from Unsplash.com
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require mansoor/filament-unsplash-picker
 ```
 
-You can publish and run the migrations with:
+Add your Unsplash Client ID to your `.env` file
 
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+```env
+UNSPLASH_CLIENT_ID=your-unsplash-client-id-goes-here
 ```
 
-You can publish the config file with:
+## Usage
 
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
+Just add the `UnsplashPickerAction` to your FileUpload Field.
+
+```php
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
+
+Forms\Components\FileUpload::make('featured_image')
+    ->image()
+    ->hintAction(UnsplashPickerAction::make())
 ```
 
-Optionally, you can publish the views using
+## Specifying Disk and Directory
+
+If you have specified the directory and disk to your FileUpload field, it will respect the configuration and upload to the correct path.
+
+```php
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
+
+Forms\Components\FileUpload::make('featured_image')
+    ->image()
+    ->disk('public')
+    ->directory('posts/featured-images')
+    ->hintAction(UnsplashPickerAction::make())
+```
+
+## Specifying Image Size
+
+You can specify which image size to use.
+
+```php
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
+
+Forms\Components\FileUpload::make('featured_image')
+    ->image()
+    ->hintAction(UnsplashPickerAction::make()->regular())
+```
+
+**Available sizes:**
+
+- `->raw()`
+- `->full()`
+- `->regular()`
+- `->small()`
+- `->thumbnail()`
+
+## Customization
+
+The `UnsplashPickerAction` is simple Filament Form Action and you append all the available methods. The Image picker component is a livewire component, you can extend and override the methods.
+
+You dont need to but you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-views"
+php artisan vendor:publish --tag="filament-unsplash-picker-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'unsplash_client_id' => env('UNSPLASH_CLIENT_ID'),
 ];
 ```
 
-## Usage
+Optionally, you can publish the views using
 
-```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+```bash
+php artisan vendor:publish --tag="filament-unsplash-picker-views"
 ```
 
 ## Testing
@@ -78,7 +111,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Mansoor Ahmed](https://github.com/mansoorkhan96)
 - [All Contributors](../../contributors)
 
 ## License
