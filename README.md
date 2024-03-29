@@ -7,7 +7,7 @@
 
 Unsplash gallery for Filament. Search and pick any image from Unsplash.com, specify which size to use.
 
-![](./screenshot.jpeg)
+![](./screenshot.jpg)
 
 ## Installation
 
@@ -94,6 +94,29 @@ Forms\Components\FileUpload::make('featured_image')
         UnsplashPickerAction::make()
             ->thumbnail()
             ->perPage(20)
+    )
+```
+
+# Enable/Disable Square Mode
+
+You can choose to dispaly images in square which uses `aspect-square` class from Tailwind CSS or disable it to display images in original height.
+
+Update use_square_display option in `.env` to apply this setting globally.
+
+```php
+'use_square_display' => env('UNSPLASH_PICKER_USE_SQUARE_DISPLAY', true),
+```
+
+Or, You can disable this setting for each `UnsplashPickerAction` by appending `->useSquareDisplay(false)` method
+
+```php
+Forms\Components\FileUpload::make('featured_image')
+    ->image()
+    ->hintAction(
+        UnsplashPickerAction::make()
+            ->thumbnail()
+            ->perPage(20)
+            ->useSquareDisplay(false)
     )
 ```
 
