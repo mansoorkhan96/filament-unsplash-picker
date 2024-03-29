@@ -8,8 +8,6 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
@@ -22,6 +20,8 @@ class UnsplashPickerAction extends Action
     protected ?ImageSize $imageSize = null;
 
     protected ?int $perPage = null;
+
+    protected ?bool $useSquareDisplay = null;
 
     public static function getDefaultName(): ?string
     {
@@ -40,7 +40,7 @@ class UnsplashPickerAction extends Action
 
         $this->modalWidth(fn (MountableAction $action): ?MaxWidth => MaxWidth::ScreenLarge);
 
-        $this->modalContent(fn () => new HtmlString(Blade::render("@livewire('unsplash-picker-component', {$this->getOptions()})")));
+        $this->modalContent(fn () => view('unsplash-picker::unsplash-picker', ['options' => $this->getOptions()]));
 
         $this->action($this->uploadImage(...));
     }
@@ -48,6 +48,13 @@ class UnsplashPickerAction extends Action
     public function perPage(int $perPage): static
     {
         $this->perPage = $perPage;
+
+        return $this;
+    }
+
+    public function useSquareDisplay(bool $useSquareDisplay): static
+    {
+        $this->useSquareDisplay = $useSquareDisplay;
 
         return $this;
     }
@@ -125,15 +132,19 @@ class UnsplashPickerAction extends Action
 
     public function getPerPage(): ?int
     {
-        return $this->perPage;
+        return $this->perPage ?? config('unsplash-picker.per_page');
     }
 
-    public function getOptions()
+    public function shouldUseSquareDisplay(): ?bool
     {
-        if (! $this->getPerPage()) {
-            return;
-        }
+        return $this->useSquareDisplay ?? config('unsplash-picker.use_square_display');
+    }
 
-        return "['perPage' => {$this->getPerPage()}]";
+    public function getOptions(): array
+    {
+        return [
+            'perPage' => $this->getPerPage(),
+            'useSquareDisplay' => $this->shouldUseSquareDisplay(),
+        ];
     }
 }
