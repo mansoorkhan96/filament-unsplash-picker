@@ -75,7 +75,7 @@ Forms\Components\FileUpload::make('featured_image')
 - `->small()`
 - `->thumbnail()`
 
-# Specifying Per Page
+## Specifying Per Page
 
 You can specify how many image results should show on a single page.
 
@@ -97,7 +97,7 @@ Forms\Components\FileUpload::make('featured_image')
     )
 ```
 
-# Enable/Disable Square Mode
+## Enable/Disable Square Mode
 
 You can choose to dispaly images in square which uses `aspect-square` class from Tailwind CSS or disable it to display images in original height.
 
