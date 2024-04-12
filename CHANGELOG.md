@@ -2,6 +2,15 @@
 
 All notable changes to `filament-unsplash-picker` will be documented in this file.
 
+## v0.0.7 - 2024-04-12
+
+### What's Changed
+
+* fix config by @atmonshi in https://github.com/mansoorkhan96/filament-unsplash-picker/pull/3
+* change to svg helper by @atmonshi in https://github.com/mansoorkhan96/filament-unsplash-picker/pull/2
+
+**Full Changelog**: https://github.com/mansoorkhan96/filament-unsplash-picker/compare/v0.0.6...v0.0.7
+
 ## v0.0.6 - 2024-03-29
 
 ### What's Changed
