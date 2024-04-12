@@ -63,7 +63,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
             'query' => $this->search,
             'per_page' => $this->getPerPage(),
             'page' => $this->page,
-            'client_id' => config('services.unsplash.client_id'),
+            'client_id' => config('unsplash-picker.unsplash_client_id'),
         ]);
 
         throw_if($response->failed(), new Exception(Arr::get($response->json(), 'errors.0')));
