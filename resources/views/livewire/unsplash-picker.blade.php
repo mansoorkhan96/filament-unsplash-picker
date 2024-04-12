@@ -36,7 +36,7 @@
                             x-cloak
                             class="absolute inset-0 flex h-full w-full flex-col items-center justify-center bg-gray-900 bg-opacity-60"
                         >
-                            <x-icons.spinner class="h-8 w-8 animate-spin text-white" />
+                            @svg('heroicon-c-arrow-path','h-8 w-8 animate-spin text-white')
                         </div>
 
                         <div
