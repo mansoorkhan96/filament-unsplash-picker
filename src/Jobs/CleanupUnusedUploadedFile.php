@@ -41,6 +41,9 @@ class CleanupUnusedUploadedFile implements ShouldQueue
             return;
         }
 
-        $storage->delete($this->filePath);
+        $pastHourTimestamp = now()->subHour()->timestamp;
+        if ($pastHourTimestamp > $storage->lastModified($this->filePath)) {
+            $storage->delete($this->filePath);
+        }
     }
 }
