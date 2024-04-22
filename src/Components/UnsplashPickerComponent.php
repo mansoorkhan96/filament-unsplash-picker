@@ -35,8 +35,6 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
     public function form(Form $form): Form
     {
         return $form
-            // ->columns(5)
-            // ->extraAttributes([''])
             ->schema([
                 Split::make([
                     TextInput::make('search')
@@ -45,7 +43,12 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ->autocomplete(false)
                         ->autofocus()
                         ->grow()
-                        ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image')),
+                        ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image'))
+                        ->extraAlpineAttributes([
+                            'x-on:keydown.enter' => 'if (!["TEXTAREA", "TRIX-EDITOR"].includes($event.target.tagName)) {
+                                $event.preventDefault()
+                            }',
+                        ]),
 
                     Toggle::make('useSquareDisplay')
                         ->label(__('unsplash-picker::unsplash-picker.square_mode'))
