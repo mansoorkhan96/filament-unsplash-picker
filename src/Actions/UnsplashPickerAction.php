@@ -117,12 +117,14 @@ class UnsplashPickerAction extends Action
 
         $filePath = Arr::first($component->getState());
 
-        dispatch(new CleanupUnusedUploadedFile(
-            model: $livewire->getModel(),
-            column: $component->getStatePath(false),
-            filePath: $filePath,
-            diskName: $component->getDiskName()
-        ))->delay(now()->addDay());
+        if (env('QUEUE_CONNECTION') !== 'sync') {
+            dispatch(new CleanupUnusedUploadedFile(
+                model: $livewire->getModel(),
+                column: $component->getStatePath(false),
+                filePath: $filePath,
+                diskName: $component->getDiskName()
+            ))->delay(now()->addDay());
+        }
     }
 
     public function getImageSize(): ImageSize
