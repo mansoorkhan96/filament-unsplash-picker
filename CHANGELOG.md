@@ -2,6 +2,14 @@
 
 All notable changes to `filament-unsplash-picker` will be documented in this file.
 
+## v0.0.8 - 2024-04-22
+
+### What's Changed
+
+* fix: avoid search enter key submitting the form by @mansoorkhan96 in https://github.com/mansoorkhan96/filament-unsplash-picker/pull/4
+
+**Full Changelog**: https://github.com/mansoorkhan96/filament-unsplash-picker/compare/v0.0.7...v0.0.8
+
 ## v0.0.7 - 2024-04-12
 
 ### What's Changed
