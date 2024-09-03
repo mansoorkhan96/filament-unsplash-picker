@@ -2,30 +2,31 @@
 
 namespace Mansoor\UnsplashPicker\Actions;
 
-use Filament\Actions\MountableAction;
-use Filament\Actions\StaticAction;
+use Exception;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Livewire;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Mansoor\UnsplashPicker\Enums\ImageSize;
-use Mansoor\UnsplashPicker\Helpers\UrlUploadedFile;
-use Mansoor\UnsplashPicker\Jobs\CleanupUnusedUploadedFile;
+use Mansoor\UnsplashPicker\Forms\Components\UnsplashPickerField;
+use Mansoor\UnsplashPicker\Livewire\UnsplashPickerComponent;
 
 class UnsplashPickerAction extends Action
 {
-    protected ?ImageSize $imageSize = null;
+    protected ImageSize $imageSize = ImageSize::Regular;
 
-    protected ?int $perPage = null;
+    protected int $perPage = 20;
 
-    protected ?bool $useSquareDisplay = null;
+    protected bool $useSquareDisplay = true;
 
     public static function getDefaultName(): ?string
     {
-        return 'unsplash_picker';
+        return 'unsplash_picker_action';
     }
 
     protected function setUp(): void
@@ -36,27 +37,81 @@ class UnsplashPickerAction extends Action
 
         $this->icon('up-unsplash');
 
-        $this->modalSubmitAction(fn (StaticAction $action) => $action->hidden());
+        $this->disabled(function (FileUpload $component) {
+            return count($component->getUploadedFiles()) === $component->getMaxFiles();
+        });
 
-        $this->modalWidth(fn (MountableAction $action): ?MaxWidth => MaxWidth::ScreenLarge);
+        $this->modalWidth(fn (): ?MaxWidth => MaxWidth::ScreenLarge);
 
-        $this->modalContent(fn () => view('unsplash-picker::unsplash-picker', ['options' => $this->getOptions()]));
+        $this->form(function (FileUpload $component) {
+            return [
+                Livewire::make(UnsplashPickerComponent::class, [
+                    'perPage' => $this->getPerPage(),
+                    'useSquareDisplay' => $this->shouldUseSquareDisplay(),
+                    'isMultiple' => $component->isMultiple(),
+                    'numberOfSelectableImages' => 1,
+                ])->key($component->getKey() . 'actions.form.unplash_picker'),
+
+                // validation??
+                UnsplashPickerField::make('selectedImages'),
+            ];
+        });
 
         $this->action($this->uploadImage(...));
     }
 
-    public function perPage(int $perPage): static
+    public function uploadImage(array $data, Component $livewire)
     {
-        $this->perPage = $perPage;
+        foreach ($data['selectedImages'] as $image) {
+            $downloadLink = Arr::get($image, $this->getImageSize()->getPath());
 
-        return $this;
+            $filePath = self::createTemporaryUploadedFileFromUrl($downloadLink);
+
+            $livewire->dispatch('add-file', $filePath);
+        }
     }
 
-    public function useSquareDisplay(bool $useSquareDisplay): static
+    public static function createTemporaryUploadedFileFromUrl(string $url)
     {
-        $this->useSquareDisplay = $useSquareDisplay;
+        if (! $stream = @fopen($url, 'r')) {
+            throw new Exception('Can\'t open file from url ' . $url);
+        }
 
-        return $this;
+        $tempFilePath = tempnam(sys_get_temp_dir(), 'url-file-');
+
+        file_put_contents($tempFilePath, $stream);
+
+        $mimeType = mime_content_type($tempFilePath);
+
+        $tempFile = (new UploadedFile($tempFilePath, basename($url, $mimeType)))
+            ->store(FileUploadConfiguration::directory(), ['disk' => FileUploadConfiguration::disk()]);
+
+        $filePath = explode('/', $tempFile)[1];
+
+        $file = TemporaryUploadedFile::createFromLivewire($filePath);
+
+        return $file->temporaryUrl();
+    }
+
+    public static function getExtraAlpineAttributes(FileUpload $component): array
+    {
+        $isMultiple = $component->isMultiple() ? 'true' : 'false';
+
+        return [
+            'x-on:add-file.window' => '
+                const pond = FilePond.find($el.querySelector(".filepond--root"));
+                const isMultiple = ' . $isMultiple . '
+
+                if (! isMultiple) {
+                    pond.removeFiles({ revert: true });
+
+                    // wait until filepond removes the file
+                    setTimeout(() => pond.addFile($event.detail), 500)
+                } else {
+                    pond.addFile($event.detail)
+                }
+            ',
+        ];
     }
 
     public function raw(): static
@@ -101,35 +156,16 @@ class UnsplashPickerAction extends Action
         return $this;
     }
 
-    public function uploadImage($arguments, Component $livewire, FileUpload $component)
-    {
-        $downloadLink = Arr::get($arguments, $this->getImageSize()->getPath());
-
-        $filePath = UrlUploadedFile::createFromUrl($downloadLink)
-            ->store(FileUploadConfiguration::directory(), ['disk' => FileUploadConfiguration::disk()]);
-
-        $filePath = explode('/', $filePath)[1];
-
-        $filePath = TemporaryUploadedFile::createFromLivewire($filePath);
-
-        $component->state([$filePath]);
-        $component->saveUploadedFiles();
-
-        $filePath = Arr::first($component->getState());
-
-        if (env('QUEUE_CONNECTION') !== 'sync') {
-            dispatch(new CleanupUnusedUploadedFile(
-                model: $livewire->getModel(),
-                column: $component->getStatePath(false),
-                filePath: $filePath,
-                diskName: $component->getDiskName()
-            ))->delay(now()->addDay());
-        }
-    }
-
     public function getImageSize(): ImageSize
     {
-        return $this->imageSize ?? ImageSize::Regular;
+        return $this->imageSize;
+    }
+
+    public function perPage(int $perPage): static
+    {
+        $this->perPage = $perPage;
+
+        return $this;
     }
 
     public function getPerPage(): ?int
@@ -137,16 +173,15 @@ class UnsplashPickerAction extends Action
         return $this->perPage ?? config('unsplash-picker.per_page');
     }
 
+    public function useSquareDisplay(bool $useSquareDisplay): static
+    {
+        $this->useSquareDisplay = $useSquareDisplay;
+
+        return $this;
+    }
+
     public function shouldUseSquareDisplay(): ?bool
     {
         return $this->useSquareDisplay ?? config('unsplash-picker.use_square_display');
-    }
-
-    public function getOptions(): array
-    {
-        return [
-            'perPage' => $this->getPerPage(),
-            'useSquareDisplay' => $this->shouldUseSquareDisplay(),
-        ];
     }
 }

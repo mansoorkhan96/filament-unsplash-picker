@@ -1,6 +1,6 @@
 <?php
 
-namespace Mansoor\UnsplashPicker\Components;
+namespace Mansoor\UnsplashPicker\Livewire;
 
 use Exception;
 use Filament\Actions\Action;
@@ -28,6 +28,8 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public bool $useSquareDisplay = true;
 
+    public bool $isMultiple = false;
+
     public int $page = 1;
 
     public ?int $totalPages = null;
@@ -52,7 +54,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
                     Toggle::make('useSquareDisplay')
                         ->label(__('unsplash-picker::unsplash-picker.square_mode'))
-                        ->default(fn () => dd($this->shouldUseSquareDisplay()))
+                        ->default(fn () => $this->shouldUseSquareDisplay())
                         ->reactive()
                         ->grow(false),
                 ])->extraAttributes(['class' => 'items-center']),
@@ -62,6 +64,10 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
     #[Computed]
     public function getImages()
     {
+        if (blank($this->search)) {
+            return [];
+        }
+
         $response = Http::get('https://api.unsplash.com/search/photos', [
             'query' => $this->search,
             'per_page' => $this->getPerPage(),
@@ -127,6 +133,6 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public function render()
     {
-        return view('unsplash-picker::livewire.unsplash-picker');
+        return view('unsplash-picker::livewire.unsplash-picker-component');
     }
 }

@@ -12,3 +12,5 @@ phpstan.neon
 testbench.yaml
 vendor
 .env
+.devdbrc
+playground
