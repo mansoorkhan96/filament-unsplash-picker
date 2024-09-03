@@ -1,6 +1,7 @@
 # TODO
 
 -   [ ] Show loading indicator when searching.
+-   [ ] Disable image select once user hits submit
 -   [ ] Allow to pick images based on remaining max upload limit
 -   [ ] Try Alpine masonary plugin ???
 -   [ ] Add a method to run after the upload, so that user can also interact with unsplash data
