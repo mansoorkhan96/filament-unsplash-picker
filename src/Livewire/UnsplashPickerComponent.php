@@ -34,6 +34,8 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public ?int $totalPages = null;
 
+    public bool $searching = false;
+
     public function form(Form $form): Form
     {
         return $form
@@ -47,6 +49,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ->grow()
                         ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image'))
                         ->extraAlpineAttributes([
+                            'x-model' => 'search',
                             'x-on:keydown.enter' => 'if (!["TEXTAREA", "TRIX-EDITOR"].includes($event.target.tagName)) {
                                 $event.preventDefault()
                             }',
@@ -78,6 +81,8 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
         throw_if($response->failed(), new Exception(Arr::get($response->json(), 'errors.0')));
 
         $this->totalPages = Arr::get($response->json(), 'total_pages');
+
+        $this->searching = false;
 
         return Arr::get($response->json(), 'results');
     }
