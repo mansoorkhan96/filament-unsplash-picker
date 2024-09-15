@@ -1,7 +1,7 @@
 <div
     x-data="{
         form: null,
-        search: '',
+        search: @js($search),
         isProcessing: false,
         searching: $wire.entangle('searching').live,
         isMultiple: $wire.entangle('isMultiple'),

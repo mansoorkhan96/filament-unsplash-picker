@@ -2,10 +2,12 @@
 
 namespace Mansoor\UnsplashPicker\Actions;
 
+use Closure;
 use Exception;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Livewire;
+use Filament\Forms\Get;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
@@ -25,6 +27,8 @@ class UnsplashPickerAction extends Action
     protected int $perPage = 20;
 
     protected bool $useSquareDisplay = true;
+
+    protected string | Closure $search = '';
 
     public static function getDefaultName(): ?string
     {
@@ -60,9 +64,10 @@ class UnsplashPickerAction extends Action
             return "You may select {$numberOfSelectableImages} " . str('image')->plural($numberOfSelectableImages) . '.';
         });
 
-        $this->form(function (FileUpload $component) {
+        $this->form(function (FileUpload $component, Get $get) {
             return [
                 Livewire::make(UnsplashPickerComponent::class, [
+                    'search' => $this->getDefaultSearch(),
                     'perPage' => $this->getPerPage(),
                     'useSquareDisplay' => $this->shouldUseSquareDisplay(),
                     'isMultiple' => $component->isMultiple(),
@@ -136,6 +141,22 @@ class UnsplashPickerAction extends Action
                 }
             ',
         ];
+    }
+
+    public function defaultSearch(string | Closure $search): static
+    {
+        $this->search = $search;
+
+        return $this;
+    }
+
+    public function getDefaultSearch(): string
+    {
+        if (is_string($this->search)) {
+            return $this->search ?? '';
+        }
+
+        return $this->evaluate($this->search) ?? '';
     }
 
     public function perPage(int $perPage): static
