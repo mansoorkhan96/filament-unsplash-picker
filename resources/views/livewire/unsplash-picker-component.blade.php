@@ -56,7 +56,7 @@
         x-show="isProcessing"
         class="absolute inset-0 z-10 flex items-center justify-center bg-gray-100 bg-opacity-75"
     >
-        <x-filament::loading-indicator class="h-8 w-8 text-primary-500" />
+        <x-filament::loading-indicator class="h-12 w-12 text-primary-500" />
     </div>
 
     <div :class="{ 'opacity-50': isProcessing }">
@@ -106,11 +106,11 @@
                                 />
                             </div>
 
-                            <div class="group-hover:flex hidden w-full justify-center bg-black opacity-90">
+                            <div class="group-hover:flex hidden w-full justify-center bg-primary-500 opacity-90">
                                 <a
-                                    href="{{ $item['user']['links']['html'] }}?utm_source=goldencarers&utm_medium=referral&utm_campaign=api-credit"
+                                    href="{{ $item['user']['links']['html'] }}"
                                     target="_blank"
-                                    class="text-xs text-white underline"
+                                    class="text-sm text-white font-medium underline"
                                 >
                                     {{ str($item['user']['name'])->limit(20) }}
                                 </a>

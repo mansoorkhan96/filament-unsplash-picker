@@ -1,5 +1,6 @@
 # TODO
 
+-   [ ] check for any TODO: s
 -   [ ] Add full pagination support, similar to table pagination
 -   [ ] Allow user to choose size from with in the UI
 -   [ ] DOCS: Add custom theme css instructions
