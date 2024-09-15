@@ -48,6 +48,10 @@ class UnsplashPickerAction extends Action
         $this->modalWidth(fn (): ?MaxWidth => MaxWidth::ScreenLarge);
 
         $this->modalDescription(function (FileUpload $component) {
+            if (! $component->isMultiple()) {
+                return;
+            }
+
             $numberOfSelectableImages = $component->getMaxFiles() - count($component->getState());
 
             return "You may select {$numberOfSelectableImages} " . str('image')->plural($numberOfSelectableImages) . '.';
