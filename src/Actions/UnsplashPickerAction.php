@@ -38,10 +38,20 @@ class UnsplashPickerAction extends Action
         $this->icon('up-unsplash');
 
         $this->disabled(function (FileUpload $component) {
-            return count($component->getUploadedFiles()) === $component->getMaxFiles();
+            if ($component->isMultiple()) {
+                return count($component->getUploadedFiles()) === $component->getMaxFiles();
+            }
+
+            return false;
         });
 
         $this->modalWidth(fn (): ?MaxWidth => MaxWidth::ScreenLarge);
+
+        $this->modalDescription(function (FileUpload $component) {
+            $numberOfSelectableImages = $component->getMaxFiles() - count($component->getState());
+
+            return "You may select {$numberOfSelectableImages} " . str('image')->plural($numberOfSelectableImages) . '.';
+        });
 
         $this->form(function (FileUpload $component) {
             return [
@@ -49,7 +59,9 @@ class UnsplashPickerAction extends Action
                     'perPage' => $this->getPerPage(),
                     'useSquareDisplay' => $this->shouldUseSquareDisplay(),
                     'isMultiple' => $component->isMultiple(),
-                    'numberOfSelectableImages' => 1,
+                    'numberOfSelectableImages' => $component->isMultiple()
+                        ? $component->getMaxFiles() - count($component->getState())
+                        : 1,
                 ])->key($component->getKey() . 'actions.form.unplash_picker'),
 
                 // validation??
@@ -62,7 +74,7 @@ class UnsplashPickerAction extends Action
 
     public function uploadImage(array $data, Component $livewire)
     {
-        foreach ($data['selectedImages'] as $image) {
+        foreach ($data['selectedImages'] ?? [] as $image) {
             $downloadLink = Arr::get($image, $this->getImageSize()->getPath());
 
             $filePath = self::createTemporaryUploadedFileFromUrl($downloadLink);

@@ -30,6 +30,8 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public bool $isMultiple = false;
 
+    public int $numberOfSelectableImages = 1;
+
     public int $page = 1;
 
     public ?int $totalPages = null;
@@ -47,6 +49,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ->autocomplete(false)
                         ->autofocus()
                         ->grow()
+                        ->afterStateUpdated(fn () => $this->page = 1)
                         ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image'))
                         ->extraAlpineAttributes([
                             'x-model' => 'search',
@@ -91,6 +94,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
     {
         return Action::make('nextPage')
             ->button()
+            ->color('gray')
             ->label(__('unsplash-picker::unsplash-picker.next'))
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === $this->totalPages)
             ->action(function () {
@@ -102,6 +106,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
     {
         return Action::make('previousPage')
             ->button()
+            ->color('gray')
             ->label(__('unsplash-picker::unsplash-picker.previous'))
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === 1)
             ->action(function () {
