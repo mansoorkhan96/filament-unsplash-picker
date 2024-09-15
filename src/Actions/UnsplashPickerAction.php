@@ -12,13 +12,15 @@ use Illuminate\Support\Arr;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\FileUploadConfiguration;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
-use Mansoor\UnsplashPicker\Enums\ImageSize;
+use Mansoor\UnsplashPicker\Actions\Concerns\HasImageSizes;
+use Mansoor\UnsplashPicker\Actions\Concerns\HasUploadLifecycleHooks;
 use Mansoor\UnsplashPicker\Forms\Components\UnsplashPickerField;
 use Mansoor\UnsplashPicker\Livewire\UnsplashPickerComponent;
 
 class UnsplashPickerAction extends Action
 {
-    protected ImageSize $imageSize = ImageSize::Regular;
+    use HasImageSizes;
+    use HasUploadLifecycleHooks;
 
     protected int $perPage = 20;
 
@@ -54,6 +56,7 @@ class UnsplashPickerAction extends Action
 
             $numberOfSelectableImages = $component->getMaxFiles() - count($component->getState());
 
+            // TODO: to translation file
             return "You may select {$numberOfSelectableImages} " . str('image')->plural($numberOfSelectableImages) . '.';
         });
 
@@ -68,12 +71,17 @@ class UnsplashPickerAction extends Action
                         : 1,
                 ])->key($component->getKey() . 'actions.form.unplash_picker'),
 
-                // validation??
                 UnsplashPickerField::make('selectedImages'),
             ];
         });
 
-        $this->action($this->uploadImage(...));
+        $this->action(function (array $data, Component $livewire) {
+            $this->evaluate($this->beforeUpload);
+
+            $this->uploadImage($data, $livewire);
+
+            $this->evaluate($this->afterUpload);
+        });
     }
 
     public function uploadImage(array $data, Component $livewire)
@@ -130,53 +138,6 @@ class UnsplashPickerAction extends Action
         ];
     }
 
-    public function raw(): static
-    {
-        $this->imageSize = ImageSize::Raw;
-
-        return $this;
-    }
-
-    public function full(): static
-    {
-        $this->imageSize = ImageSize::Full;
-
-        return $this;
-    }
-
-    public function regular(): static
-    {
-        $this->imageSize = ImageSize::Regular;
-
-        return $this;
-    }
-
-    public function small(): static
-    {
-        $this->imageSize = ImageSize::Small;
-
-        return $this;
-    }
-
-    public function thumbnail(): static
-    {
-        $this->imageSize = ImageSize::Thumbnail;
-
-        return $this;
-    }
-
-    public function imageSize(ImageSize $imageSize): static
-    {
-        $this->imageSize = $imageSize;
-
-        return $this;
-    }
-
-    public function getImageSize(): ImageSize
-    {
-        return $this->imageSize;
-    }
-
     public function perPage(int $perPage): static
     {
         $this->perPage = $perPage;
@@ -186,7 +147,7 @@ class UnsplashPickerAction extends Action
 
     public function getPerPage(): ?int
     {
-        return $this->perPage ?? config('unsplash-picker.per_page');
+        return $this->perPage;
     }
 
     public function useSquareDisplay(bool $useSquareDisplay): static
@@ -198,6 +159,6 @@ class UnsplashPickerAction extends Action
 
     public function shouldUseSquareDisplay(): ?bool
     {
-        return $this->useSquareDisplay ?? config('unsplash-picker.use_square_display');
+        return $this->useSquareDisplay;
     }
 }
