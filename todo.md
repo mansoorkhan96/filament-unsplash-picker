@@ -1,20 +1,18 @@
 # TODO
-- Fix loading indicators
-- Support custom sizes that can be passed by user
-- Support more providers like pexels, bing images etc
-- Add support for multipe uploads
-- Add Full pagination
-- Add support for Spatie Media Plugin
 
-  - CleanupUnusedUploadedFile should add support Spatie Media
-  - `$component->saveUploadedFiles()` saves the file to DB directly, which wouldnt work on create record page
-  - if dont run `$component->saveUploadedFiles()`, there is no way we can show a preview of uploaded file from url
-
-  We have two exceptions for adding support for spatie media
-
-  1. It can only be used on Edit record page and it would forcefully auto save the picked file.
-  2. User has to blindly save the form without viewing the preview.
-
-  Workaround:
-
-- Write tests
+-   [ ] Write tests
+-   [ ] Add full pagination support, similar to table pagination
+-   [ ] Support more providers like pexels, bing images ???
+-   [x] DOCS: Add warning & example for using extraAlpineAttributes in FileUpload
+-   [x] Add upgrade guide
+-   [x] DOCS: Depricate per_page, use_square_display config
+-   [x] DOCS: Add custom theme css instructions
+-   [x] Add option to initially pick search keywords from an existing input like title
+-   [x] Add a method to run after the upload, so that user can also interact with unsplash data
+-   [x] Allow to pick images based on remaining max upload limit
+-   [x] Disable image select or entire modal including the search input once user hits submit
+-   [x] Show loading indicator when searching.
+-   [x] Check if it works with Spatie Media Library plugin
+-   [x] Disable action when reached max upload limit
+-   [x] Add support for multipe uploads use a custom form field to
+-   [x] Use events to add file using Filepond instance

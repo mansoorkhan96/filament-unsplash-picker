@@ -3,10 +3,10 @@
 namespace Mansoor\UnsplashPicker;
 
 use BladeUI\Icons\Factory;
-use Filament\Support\Assets\Css;
-use Filament\Support\Facades\FilamentAsset;
+use Filament\Forms\Components\BaseFileUpload;
 use Livewire\Livewire;
-use Mansoor\UnsplashPicker\Components\UnsplashPickerComponent;
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
+use Mansoor\UnsplashPicker\Livewire\UnsplashPickerComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -20,9 +20,7 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
     {
         $package
             ->name(static::$name)
-            ->hasConfigFile()
             ->hasTranslations()
-            ->hasAssets()
             ->hasViews();
     }
 
@@ -34,14 +32,14 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
                 'prefix' => 'up',
             ]);
         });
-
-        Livewire::component('unsplash-picker-component', UnsplashPickerComponent::class);
     }
 
     public function packageBooted(): void
     {
-        FilamentAsset::register([
-            Css::make(static::$name, __DIR__ . '/../resources/dist/unsplash-picker.css')->loadedOnRequest(),
-        ], 'mansoor/' . static::$name);
+        BaseFileUpload::configureUsing(function (BaseFileUpload $component) {
+            $component->extraAlpineAttributes(UnsplashPickerAction::getExtraAlpineAttributes(...));
+        });
+
+        Livewire::component('unsplash-picker-component', UnsplashPickerComponent::class);
     }
 }
