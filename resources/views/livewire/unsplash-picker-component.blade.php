@@ -82,13 +82,13 @@
                             src="{{ $item['urls']['thumb'] }}"
                         >
                         <button
-                            @click="toggleImageSelect(@js($item))"
+                            @click.stop="toggleImageSelect(@js($item))"
                             type="button"
                             class="absolute inset-0 w-full flex-col justify-between flex"
                         >
                             <div class="px-3 py-2">
                                 <x-filament::input.checkbox
-                                    class="invisible checked:visible group-hover:visible group-hover:ring-2 group-hover:ring-primary-500 group-hover:dark:ring-primary-500"
+                                    class="invisible checked:visible group-hover:visible group-hover:ring-2 group-hover:ring-primary-500 cursor-pointer  group-hover:dark:ring-primary-500"
                                     x-bind:checked="isSelected('{{ $item['id'] }}')"
                                 />
                             </div>
