@@ -2,6 +2,12 @@
 
 All notable changes to `filament-unsplash-picker` will be documented in this file.
 
+## v1.0.1 - 2024-10-19
+
+### What's Changed
+
+- Fixed clicking on image or the checkbox
+
 ## v1.0.0 - 2024-10-19
 
 ### What's Changed
