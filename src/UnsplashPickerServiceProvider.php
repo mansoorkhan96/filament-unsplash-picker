@@ -3,7 +3,9 @@
 namespace Mansoor\UnsplashPicker;
 
 use BladeUI\Icons\Factory;
+use Filament\Forms\Components\BaseFileUpload;
 use Livewire\Livewire;
+use Mansoor\UnsplashPicker\Actions\UnsplashPickerAction;
 use Mansoor\UnsplashPicker\Livewire\UnsplashPickerComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -26,7 +28,7 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
     {
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
             $factory->add('up', [
-                'path' => __DIR__ . '/../resources/icons',
+                'path' => __DIR__.'/../resources/icons',
                 'prefix' => 'up',
             ]);
         });
@@ -34,6 +36,10 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        BaseFileUpload::configureUsing(function (BaseFileUpload $component) {
+            $component->extraAlpineAttributes(UnsplashPickerAction::getExtraAlpineAttributes(...));
+        });
+
         Livewire::component('unsplash-picker-component', UnsplashPickerComponent::class);
     }
 }

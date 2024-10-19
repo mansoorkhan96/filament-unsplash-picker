@@ -142,6 +142,19 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="filament-unsplash-picker-views"
 ```
 
+> [!IMPORTANT]
+> When defining the `extraAlpineAttributes` method for `SpatieMediaLibraryFileUpload` or `FileUpload` field, make sure to merge the Alpine attributes from `UnsplashPickerAction`.
+
+```php
+SpatieMediaLibraryFileUpload::make('media')
+    ->extraAlpineAttributes(function ($component) {
+        return [
+            'custom-attribute' => 'custom-attribute-value-goes-here',
+            ...UnsplashPickerAction::getExtraAlpineAttributes($component),
+        ];
+    })
+```
+
 ## Upgrade to 1.x
 
 This plugin is re-written but it is very small and simple, so upgrade is very easy. If you follow the docs from top to bottom, you should be good to use the latest version.
