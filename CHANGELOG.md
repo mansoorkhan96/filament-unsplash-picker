@@ -2,6 +2,18 @@
 
 All notable changes to `filament-unsplash-picker` will be documented in this file.
 
+## v1.0.0 - 2024-10-19
+
+### What's Changed
+
+Re-written the plugin to add more features:
+
+- Added support for picking multiple files
+- Added support for Spatie Media Library Plugin
+- Added hooks to run before and after upload
+- Added option to set default search
+- Fixed bugs like loading spinner not working and many more
+
 ## v0.0.8 - 2024-04-22
 
 ### What's Changed
