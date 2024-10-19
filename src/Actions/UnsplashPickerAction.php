@@ -28,7 +28,7 @@ class UnsplashPickerAction extends Action
 
     protected bool $useSquareDisplay = true;
 
-    protected string | Closure $search = '';
+    protected string|Closure $search = '';
 
     public static function getDefaultName(): ?string
     {
@@ -39,7 +39,7 @@ class UnsplashPickerAction extends Action
     {
         parent::setUp();
 
-        $this->label(__('unsplash-picker::unsplash-picker.pick_from_unsplash'));
+        $this->label(__('unsplash-picker::unsplash-picker-action.label'));
 
         $this->icon('up-unsplash');
 
@@ -60,8 +60,11 @@ class UnsplashPickerAction extends Action
 
             $numberOfSelectableImages = $component->getMaxFiles() - count($component->getState());
 
-            // TODO: to translation file
-            return "You may select {$numberOfSelectableImages} " . str('image')->plural($numberOfSelectableImages) . '.';
+            return trans_choice(
+                'unsplash-picker::unsplash-picker-action.description',
+                $numberOfSelectableImages,
+                ['numberOfSelectableImages' => $numberOfSelectableImages]
+            );
         });
 
         $this->form(function (FileUpload $component, Get $get) {
@@ -74,7 +77,7 @@ class UnsplashPickerAction extends Action
                     'numberOfSelectableImages' => $component->isMultiple()
                         ? $component->getMaxFiles() - count($component->getState())
                         : 1,
-                ])->key($component->getKey() . 'actions.form.unplash_picker'),
+                ])->key($component->getKey().'actions.form.unplash_picker'),
 
                 UnsplashPickerField::make('selectedImages'),
             ];
@@ -103,7 +106,7 @@ class UnsplashPickerAction extends Action
     public static function createTemporaryUploadedFileFromUrl(string $url)
     {
         if (! $stream = @fopen($url, 'r')) {
-            throw new Exception('Can\'t open file from url ' . $url);
+            throw new Exception('Can\'t open file from url '.$url);
         }
 
         $tempFilePath = tempnam(sys_get_temp_dir(), 'url-file-');
@@ -129,7 +132,7 @@ class UnsplashPickerAction extends Action
         return [
             'x-on:add-file.window' => '
                 const pond = FilePond.find($el.querySelector(".filepond--root"));
-                const isMultiple = ' . $isMultiple . '
+                const isMultiple = '.$isMultiple.'
 
                 if (! isMultiple) {
                     pond.removeFiles({ revert: true });
@@ -143,7 +146,7 @@ class UnsplashPickerAction extends Action
         ];
     }
 
-    public function defaultSearch(string | Closure $search): static
+    public function defaultSearch(string|Closure $search): static
     {
         $this->search = $search;
 

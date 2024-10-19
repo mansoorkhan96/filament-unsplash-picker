@@ -39,15 +39,6 @@
         $watch('search', value => searching = value != '')
 
         $watch('selectedImages', value => $wire.dispatch('unsplash-selected-images-updated', value))
-
-        {{-- TODO: remove --}}
-        {{-- $watch(
-            'selectedImages',
-            function(value) {
-                console.log(value)
-                $wire.dispatch('unsplash-selected-images-updated', value)
-            }
-        ) --}}
     "
     :class="{ 'pointer-events-none': isProcessing }"
     @click.prevent="if (isProcessing) return"
@@ -65,10 +56,6 @@
         </div>
 
         <div>
-            <p x-show="search == ''" class="text-center">
-                {{ __('unsplash-picker::unsplash-picker.empty_search') }}
-            </p>
-
             <div x-show="searching" class="flex justify-center py-4">
                 <x-filament::loading-indicator class="h-8 w-8 text-primary-500" />
             </div>
@@ -122,8 +109,9 @@
 
             @if (blank($this->getImages))
                 <div x-show="! searching && search != ''" class="text-center" >
-                    <p>{{ __('unsplash-picker::unsplash-picker.no_results') }}</p>
-                    <p>{{ __('unsplash-picker::unsplash-picker.try_again') }}</p>
+                    <p>
+                        {!! __('unsplash-picker::unsplash-picker-action.no_search_results') !!}
+                    </p>
                 </div>
             @endif
 

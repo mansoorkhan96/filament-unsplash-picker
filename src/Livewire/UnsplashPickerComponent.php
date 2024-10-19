@@ -50,7 +50,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ->autofocus()
                         ->grow()
                         ->afterStateUpdated(fn () => $this->page = 1)
-                        ->placeholder(__('unsplash-picker::unsplash-picker.search_for_an_image'))
+                        ->placeholder(__('unsplash-picker::unsplash-picker-action.form.fields.search.placeholder'))
                         ->extraAlpineAttributes([
                             'x-model' => 'search',
                             'x-on:keydown.enter' => 'if (!["TEXTAREA", "TRIX-EDITOR"].includes($event.target.tagName)) {
@@ -59,7 +59,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ]),
 
                     Toggle::make('useSquareDisplay')
-                        ->label(__('unsplash-picker::unsplash-picker.square_mode'))
+                        ->label(__('unsplash-picker::unsplash-picker-action.form.fields.square_mode.label'))
                         ->default(fn () => $this->shouldUseSquareDisplay())
                         ->reactive()
                         ->grow(false),
@@ -78,7 +78,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
             'query' => $this->search,
             'per_page' => $this->getPerPage(),
             'page' => $this->page,
-            'client_id' => config('unsplash-picker.unsplash_client_id'),
+            'client_id' => config('services.unsplash.client_id'),
         ]);
 
         throw_if($response->failed(), new Exception(Arr::get($response->json(), 'errors.0')));
@@ -95,7 +95,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
         return Action::make('nextPage')
             ->button()
             ->color('gray')
-            ->label(__('unsplash-picker::unsplash-picker.next'))
+            ->label(__('unsplash-picker::unsplash-picker-action.actions.next_page.label'))
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === $this->totalPages)
             ->action(function () {
                 $this->nextPage();
@@ -107,7 +107,7 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
         return Action::make('previousPage')
             ->button()
             ->color('gray')
-            ->label(__('unsplash-picker::unsplash-picker.previous'))
+            ->label(__('unsplash-picker::unsplash-picker-action.actions.previous_page.label'))
             ->disabled(fn () => $this->totalPages <= 1 || $this->page === 1)
             ->action(function () {
                 $this->previousPage();
