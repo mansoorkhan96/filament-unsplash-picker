@@ -26,7 +26,7 @@ class UnsplashPickerServiceProvider extends PackageServiceProvider
     {
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
             $factory->add('up', [
-                'path' => __DIR__.'/../resources/icons',
+                'path' => __DIR__ . '/../resources/icons',
                 'prefix' => 'up',
             ]);
         });
