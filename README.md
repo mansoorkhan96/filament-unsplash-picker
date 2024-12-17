@@ -9,10 +9,6 @@ Unsplash gallery for Filament. Search and pick any image from Unsplash.com, spec
 
 ![](./screenshot.jpg)
 
-## Announcement
-
-This package is being re-written and will mostly probably be ready to use after Filament v4. Re-writing this package is allowing me to work on remaining features and remove unnecessary hacks. You may check the [re-write branch](https://github.com/mansoorkhan96/filament-unsplash-picker/tree/re-write) and the [progress on todo list](https://github.com/mansoorkhan96/filament-unsplash-picker/blob/re-write/todo.md).
-
 ## Installation
 
 You can install the plugin via composer:
