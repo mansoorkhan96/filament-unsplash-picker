@@ -2,6 +2,18 @@
 
 All notable changes to `filament-unsplash-picker` will be documented in this file.
 
+## v1.0.2 - 2025-04-04
+
+### What's Changed
+
+* Support Laravel 12 by @belzaaron in https://github.com/mansoorkhan96/filament-unsplash-picker/pull/9
+
+### New Contributors
+
+* @belzaaron made their first contribution in https://github.com/mansoorkhan96/filament-unsplash-picker/pull/9
+
+**Full Changelog**: https://github.com/mansoorkhan96/filament-unsplash-picker/compare/v1.0.1...v1.0.2
+
 ## v1.0.1 - 2024-10-19
 
 ### What's Changed
