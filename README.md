@@ -25,14 +25,16 @@ Add Unsplash Client ID to `config/services.php`
 ],
 ```
 
-Integrate plugin Tailwind CSS by [creating a custom Filament theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). After you have created your custom theme, add Unsplash Picker views to your new theme's `tailwind.config.js` file located in `resources/css/filament/admin/tailwind.config.js`:
+> [!IMPORTANT]
+> If you have not set up a custom theme and are using Filament Panels follow the instructions in the [Filament Docs](https://filamentphp.com/docs/4.x/styling/overview#creating-a-custom-theme) first.
 
-```js
-content: [
-    ...
-    './vendor/mansoor/filament-unsplash-picker/resources/views/**/*.blade.php',
-],
+After setting up a custom theme add the plugin's views to your theme css file.
+
+```css
+@source '../../../../vendor/mansoor/filament-unsplash-picker/resources/**/*.blade.php';
 ```
+
+Add plugin views to your theme css file is the only change you need to upgrade to 4.x.
 
 ## Usage
 

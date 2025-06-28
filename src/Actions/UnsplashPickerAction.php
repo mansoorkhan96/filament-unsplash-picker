@@ -4,11 +4,11 @@ namespace Mansoor\UnsplashPicker\Actions;
 
 use Closure;
 use Exception;
-use Filament\Forms\Components\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Livewire;
-use Filament\Forms\Get;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Schemas\Components\Livewire;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Support\Enums\Width;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Livewire\Component;
@@ -28,7 +28,7 @@ class UnsplashPickerAction extends Action
 
     protected bool $useSquareDisplay = true;
 
-    protected string | Closure $search = '';
+    protected string|Closure $search = '';
 
     public static function getDefaultName(): ?string
     {
@@ -51,7 +51,7 @@ class UnsplashPickerAction extends Action
             return false;
         });
 
-        $this->modalWidth(fn (): ?MaxWidth => MaxWidth::ScreenLarge);
+        $this->modalWidth(fn (): ?Width => Width::ScreenLarge);
 
         $this->modalDescription(function (FileUpload $component) {
             if (! $component->isMultiple()) {
@@ -77,7 +77,7 @@ class UnsplashPickerAction extends Action
                     'numberOfSelectableImages' => $component->isMultiple()
                         ? $component->getMaxFiles() - count($component->getState())
                         : 1,
-                ])->key($component->getKey() . 'actions.form.unplash_picker'),
+                ])->key($component->getKey().'actions.form.unplash_picker'),
 
                 UnsplashPickerField::make('selectedImages'),
             ];
@@ -106,7 +106,7 @@ class UnsplashPickerAction extends Action
     public static function createTemporaryUploadedFileFromUrl(string $url)
     {
         if (! $stream = @fopen($url, 'r')) {
-            throw new Exception('Can\'t open file from url ' . $url);
+            throw new Exception('Can\'t open file from url '.$url);
         }
 
         $tempFilePath = tempnam(sys_get_temp_dir(), 'url-file-');
@@ -131,8 +131,8 @@ class UnsplashPickerAction extends Action
 
         return [
             'x-on:add-file.window' => '
-                const pond = FilePond.find($el.querySelector(".filepond--root"));
-                const isMultiple = ' . $isMultiple . '
+                const pond = FilePond.find($el.querySelector(\'.filepond--root\'));
+                const isMultiple = '.$isMultiple.'
 
                 if (! isMultiple) {
                     pond.removeFiles({ revert: true });
@@ -146,7 +146,7 @@ class UnsplashPickerAction extends Action
         ];
     }
 
-    public function defaultSearch(string | Closure $search): static
+    public function defaultSearch(string|Closure $search): static
     {
         $this->search = $search;
 

@@ -6,12 +6,12 @@ use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Schemas\Components\Flex;
+use Filament\Schemas\Schema;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
@@ -38,11 +38,11 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
 
     public bool $searching = false;
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Split::make([
+        return $schema
+            ->components([
+                Flex::make([
                     TextInput::make('search')
                         ->live(debounce: 300)
                         ->hiddenLabel()
@@ -53,9 +53,9 @@ class UnsplashPickerComponent extends Component implements HasActions, HasForms
                         ->placeholder(__('unsplash-picker::unsplash-picker-action.form.fields.search.placeholder'))
                         ->extraAlpineAttributes([
                             'x-model' => 'search',
-                            'x-on:keydown.enter' => 'if (!["TEXTAREA", "TRIX-EDITOR"].includes($event.target.tagName)) {
-                                $event.preventDefault()
-                            }',
+                            // 'x-on:keydown.enter' => 'if (!["TEXTAREA", "TRIX-EDITOR"].includes($event.target.tagName)) {
+                            //     $event.preventDefault()
+                            // }',
                         ]),
 
                     Toggle::make('useSquareDisplay')
