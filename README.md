@@ -7,7 +7,7 @@
 
 Unsplash gallery for Filament. Search and pick any image from Unsplash.com, specify which size to use.
 
-![](./screenshot.jpg)
+![](./resources/screenshot.png)
 
 ## Installation
 
