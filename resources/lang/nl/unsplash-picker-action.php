@@ -21,5 +21,5 @@ return [
             'label' => 'Vorige',
         ],
     ],
-    'no_search_results' => "Sorry, je zoekopdracht heeft geen resultaten opgeleverd.<br>Probeer een andere zoekopdracht.",
+    'no_search_results' => 'Sorry, je zoekopdracht heeft geen resultaten opgeleverd.<br>Probeer een andere zoekopdracht.',
 ];
