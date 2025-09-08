@@ -130,7 +130,7 @@ class UnsplashPickerAction extends Action
         $isMultiple = $component->isMultiple() ? 'true' : 'false';
 
         return [
-            'x-on:add-file.window' => '
+                        'x-on:add-file.window' => '
                 const pond = FilePond.find($el.querySelector(\'.filepond--root\'));
                 const isMultiple = ' . $isMultiple . '
 
@@ -138,9 +138,17 @@ class UnsplashPickerAction extends Action
                     pond.removeFiles({ revert: true });
 
                     // wait until filepond removes the file
-                    setTimeout(() => pond.addFile($event.detail), 500)
+                    setTimeout(() => {
+                        fetch($event.detail)
+                            .then(response => response.blob())
+                            .then(blob => pond.addFile(blob))
+                            .catch(() => pond.addFile($event.detail));
+                    }, 500)
                 } else {
-                    pond.addFile($event.detail)
+                    fetch($event.detail)
+                        .then(response => response.blob())
+                        .then(blob => pond.addFile(blob))
+                        .catch(() => pond.addFile($event.detail));
                 }
             ',
         ];
