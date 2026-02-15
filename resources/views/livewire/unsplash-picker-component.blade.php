@@ -3,9 +3,9 @@
         form: null,
         search: @js($search),
         isProcessing: false,
-        searching: $wire.entangle('searching').live,
-        isMultiple: $wire.entangle('isMultiple'),
-        numberOfSelectableImages: $wire.entangle('numberOfSelectableImages'),
+        searching: $wire.$entangle('searching').live,
+        isMultiple: $wire.$entangle('isMultiple'),
+        numberOfSelectableImages: $wire.$entangle('numberOfSelectableImages'),
         selectedImages: [],
         isSelected: function(id) {
             return this.selectedImages.find(item => item.id == id) != undefined

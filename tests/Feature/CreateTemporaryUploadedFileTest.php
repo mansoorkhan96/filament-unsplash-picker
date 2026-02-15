@@ -14,7 +14,7 @@ it('returns a temporary url string from a valid image url', function () {
     $result = UnsplashPickerAction::createTemporaryUploadedFileFromUrl($tempImage);
 
     expect($result)->toBeString()
-        ->and($result)->toContain('/livewire/preview-file/');
+        ->and($result)->toMatch('#/livewire[^/]*/preview-file/#');
 
     @unlink($tempImage);
 });
@@ -43,7 +43,7 @@ it('handles jpeg image with correct mime type', function () {
     $result = UnsplashPickerAction::createTemporaryUploadedFileFromUrl($tempImage);
 
     expect($result)->toBeString()
-        ->and($result)->toContain('/livewire/preview-file/');
+        ->and($result)->toMatch('#/livewire[^/]*/preview-file/#');
 
     @unlink($tempImage);
 });
