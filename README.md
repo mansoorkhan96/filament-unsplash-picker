@@ -1,8 +1,8 @@
 # Unsplash Picker for Filament
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/mansoor/filament-unsplash-picker.svg?style=flat-square)](https://packagist.org/packages/mansoor/filament-unsplash-picker)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/mansoor/filament-unsplash-picker/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/mansoor/filament-unsplash-picker/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/mansoor/filament-unsplash-picker/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/mansoor/filament-unsplash-picker/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
+[![Tests](https://github.com/mansoorkhan96/filament-unsplash-picker/actions/workflows/run-tests.yml/badge.svg)](https://github.com/mansoorkhan96/filament-unsplash-picker/actions/workflows/run-tests.yml)
+[![PHP Code Styling](https://github.com/mansoorkhan96/filament-unsplash-picker/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/mansoorkhan96/filament-unsplash-picker/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/mansoor/filament-unsplash-picker.svg?style=flat-square)](https://packagist.org/packages/mansoor/filament-unsplash-picker)
 
 Unsplash Gallery for Filament. Search and pick any image from Unsplash.com, specify which size to use.
