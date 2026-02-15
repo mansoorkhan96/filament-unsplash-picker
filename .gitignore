@@ -14,3 +14,5 @@ vendor
 .env
 .devdbrc
 playground
+.phpunit.cache/
+scripts/

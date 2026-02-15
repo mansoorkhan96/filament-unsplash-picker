@@ -28,6 +28,7 @@
         "illuminate/contracts": "^10.0 || ^11.0 || ^12.0"
     },
     "require-dev": {
+        "filament/spatie-laravel-media-library-plugin": "^4.0@beta",
         "larastan/larastan": "3.0",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^8.1",
